@@ -3,6 +3,7 @@ import 'package:vets_uo263610_flutter_app/src/user.dart';
 import 'package:vets_uo263610_flutter_app/pages/user_signup_form.dart';
 import 'package:vets_uo263610_flutter_app/pages/custom_alert_dialog.dart';
 import 'package:vets_uo263610_flutter_app/pages/user_edit_form.dart';
+import 'package:vets_uo263610_flutter_app/pages/user_detail_page.dart';
 
 class HomePage extends StatefulWidget {
   //final String _title;
@@ -61,28 +62,8 @@ class StateHomePage extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => UserEditForm(user: currentUser),
+                  builder: (context) => UserDetailPage(user: currentUser),
                 ),
-              ).then(
-                (modifiedUser) => {
-                  if (modifiedUser != null)
-                    {
-                      setState(() {
-                        users.removeAt(index);
-                        users.insert(index, modifiedUser);
-                        String message =
-                            "El usuario ${modifiedUser.name} ha sido actualizado correctamenet.";
-                        showDialog(
-                          context: context,
-                          builder: (context) => CustomAlertDialog.create(
-                            context,
-                            'Información',
-                            message,
-                          ),
-                        );
-                      }),
-                    },
-                },
               );
             },
             onLongPress: () {deleteUser(context, users[index]);},
@@ -91,7 +72,49 @@ class StateHomePage extends State<HomePage> {
             leading: CircleAvatar(
               child: Text(users[index].name.substring(0, 1)),
             ),
-            trailing: const Icon(Icons.call, color: Colors.black),
+            trailing: SizedBox(
+              width: 96,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.call, color: Colors.black),
+                    onPressed: () {
+                      // placeholder for call action
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.black),
+                    onPressed: () {
+                      User currentUser = users[index];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UserEditForm(user: currentUser)),
+                      ).then((modifiedUser) => {
+                            if (modifiedUser != null)
+                              {
+                                setState(() {
+                                  users.removeAt(index);
+                                  users.insert(index, modifiedUser);
+                                  String message =
+                                      "El usuario ${modifiedUser.name} ha sido actualizado correctamenet.";
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => CustomAlertDialog.create(
+                                      context,
+                                      'Información',
+                                      message,
+                                    ),
+                                  );
+                                }),
+                              }
+                          });
+                    },
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),

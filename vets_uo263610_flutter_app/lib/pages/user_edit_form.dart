@@ -33,6 +33,7 @@ class StateUserEditForm extends State<UserEditForm> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
               controller: nameController,
               decoration: const InputDecoration(
@@ -48,6 +49,7 @@ class StateUserEditForm extends State<UserEditForm> {
               },
               onSaved: (value) => nameController.text = value ?? '',
             ),
+            const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
               controller: surnameController,
               decoration: const InputDecoration(
@@ -65,6 +67,7 @@ class StateUserEditForm extends State<UserEditForm> {
                 surnameController.text = value ?? '';
               },
             ),
+            const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -82,6 +85,7 @@ class StateUserEditForm extends State<UserEditForm> {
                 emailController.text = value ?? '';
               },
             ),
+            const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
               controller: phoneController,
               decoration: const InputDecoration(
