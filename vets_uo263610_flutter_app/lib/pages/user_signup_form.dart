@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vets_uo263610_flutter_app/src/user.dart';
 
 // Create a Form widget.
 class UserSignUpForm extends StatefulWidget {
@@ -9,6 +10,11 @@ class UserSignUpForm extends StatefulWidget {
 
 class UserSignUpFormState extends State<UserSignUpForm> {
   final _formKey = GlobalKey<FormState>();
+  String _name = "";
+  String _surname = "";
+  String _email = "";
+  String _phone = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +38,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 }
                 return null;
               },
+              onSaved: (value) => _name = value ?? '',
             ),
             const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
@@ -46,6 +53,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 }
                 return null;
               },
+              onSaved: (value) => _surname = value ?? '',
             ),
             const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
@@ -60,6 +68,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 }
                 return null;
               },
+              onSaved: (value) => _email = value ?? '',
             ),
             const SizedBox(height: 20), // Espaciado de 20 píxeles
             TextFormField(
@@ -74,6 +83,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 }
                 return null;
               },
+              onSaved: (value) => _phone = value ?? '',
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -81,11 +91,9 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 onPressed: () {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
+                    _formKey.currentState!.save();
+                    User user = User(_name, _surname, _email, _phone);
+                    Navigator.pop(context, user);
                   }
                 },
                 child: const Text('Submit'),
