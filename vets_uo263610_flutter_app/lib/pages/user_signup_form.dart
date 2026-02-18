@@ -36,6 +36,16 @@ class UserSignUpFormState extends State<UserSignUpForm> {
                 if (value == null || value.isEmpty) {
                   return 'por favor digite el nombre';
                 }
+                if (value.length < 2) {
+                  return 'el nombre debe tener al menos 2 caracteres';
+                }
+                if (value.length > 50) {
+                  return 'el nombre no debe exceder 50 caracteres';
+                }
+                final nameRegex = RegExp(r'^[A-Za-zÀ-ÿ\s]+$');
+                if (!nameRegex.hasMatch(value)) {
+                  return 'caracteres inválidos (solo letras y espacios)';
+                }
                 return null;
               },
               onSaved: (value) => _name = value ?? '',
@@ -50,6 +60,16 @@ class UserSignUpFormState extends State<UserSignUpForm> {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'por favor digite los apellidos';
+                }
+                if (value.length < 2) {
+                  return 'los apellidos deben tener al menos 2 caracteres';
+                }
+                if (value.length > 50) {
+                  return 'los apellidos no deben exceder 50 caracteres';
+                }
+                final surnameRegex = RegExp(r'^[A-Za-zÀ-ÿ\s]+$');
+                if (!surnameRegex.hasMatch(value)) {
+                  return 'caracteres inválidos (solo letras y espacios)';
                 }
                 return null;
               },
