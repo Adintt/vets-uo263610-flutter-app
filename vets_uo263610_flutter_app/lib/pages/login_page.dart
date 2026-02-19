@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vets_uo263610_flutter_app/src/auth_service.dart';
 import 'package:vets_uo263610_flutter_app/pages/home_page.dart';
+import 'package:vets_uo263610_flutter_app/pages/register_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -27,14 +28,19 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _loading = true);
     final email = _emailController.text.trim();
     final password = _passwordController.text;
-    final ok = await AuthService.login(email, password);
-    setState(() => _loading = false);
-    if (ok) {
+    try {
+      final token = await AuthService.login(email, password);
+      if (!mounted) {
+        return;
+      }
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomePage()),
+        MaterialPageRoute(builder: (_) => HomePage(token: token)),
       );
-    } else {
+    } catch (_) {
+      if (!mounted) {
+        return;
+      }
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -47,6 +53,10 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       );
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
   }
 
@@ -69,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailController,
                       decoration: const InputDecoration(
                         labelText: 'Email',
-                        hintText: 'admin@admin.com',
+                        hintText: 'usuario@correo.com',
                       ),
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) {
@@ -101,6 +111,20 @@ class _LoginPageState extends State<LoginPage> {
                               )
                             : const Text('Entrar'),
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: _loading
+                          ? null
+                          : () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const RegisterPage(),
+                                ),
+                              );
+                            },
+                      child: const Text('Crear cuenta'),
                     ),
                   ],
                 ),

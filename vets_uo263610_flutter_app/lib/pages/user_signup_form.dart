@@ -19,13 +19,14 @@ class UserSignUpFormState extends State<UserSignUpForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Registro de usuarios")),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
-            TextFormField(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Nombre',
                 hintText: 'Introduce tu nombre',
@@ -50,7 +51,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
               },
               onSaved: (value) => _name = value ?? '',
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Apellidos',
@@ -75,7 +76,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
               },
               onSaved: (value) => _surname = value ?? '',
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Email',
@@ -95,7 +96,7 @@ class UserSignUpFormState extends State<UserSignUpForm> {
               },
               onSaved: (value) => _email = value ?? '',
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               decoration: const InputDecoration(
                 labelText: 'Telefóno',
@@ -115,21 +116,22 @@ class UserSignUpFormState extends State<UserSignUpForm> {
               },
               onSaved: (value) => _phone = value ?? '',
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    User user = User(_name, _surname, _email, _phone);
-                    Navigator.pop(context, user);
-                  }
-                },
-                child: const Text('Submit'),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      User user = User(_name, _surname, _email, _phone);
+                      Navigator.pop(context, user);
+                    }
+                  },
+                  child: const Text('Guardar usuario'),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -28,13 +28,14 @@ class StateUserEditForm extends State<UserEditForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Modificar datos usuario")),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
-            TextFormField(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
               controller: nameController,
               decoration: const InputDecoration(
                 labelText: 'Nombre',
@@ -49,7 +50,7 @@ class StateUserEditForm extends State<UserEditForm> {
               },
               onSaved: (value) => nameController.text = value ?? '',
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               controller: surnameController,
               decoration: const InputDecoration(
@@ -67,7 +68,7 @@ class StateUserEditForm extends State<UserEditForm> {
                 surnameController.text = value ?? '';
               },
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -85,7 +86,7 @@ class StateUserEditForm extends State<UserEditForm> {
                 emailController.text = value ?? '';
               },
             ),
-            const SizedBox(height: 20), // Espaciado de 20 píxeles
+            const SizedBox(height: 20),
             TextFormField(
               controller: phoneController,
               decoration: const InputDecoration(
@@ -103,14 +104,12 @@ class StateUserEditForm extends State<UserEditForm> {
                 phoneController.text = value ?? '';
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Processing Data')),
-                    );
                     _formKey.currentState!.save();
                     User user = User(
                       nameController.text,
@@ -121,10 +120,11 @@ class StateUserEditForm extends State<UserEditForm> {
                     Navigator.pop(context, user);
                   }
                 },
-                child: const Text('Submit'),
+                child: const Text('Guardar cambios'),
               ),
             ),
           ],
+        ),
         ),
       ),
     );

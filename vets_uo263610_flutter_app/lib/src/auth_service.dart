@@ -1,10 +1,25 @@
-class AuthService {
-  // Credenciales de ejemplo. Reemplazar por integración real más tarde.
-  static const String _validEmail = 'admin@admin.com';
-  static const String _validPassword = 'admin123';
+import 'package:vets_uo263610_flutter_app/src/api_service.dart';
 
-  static Future<bool> login(String email, String password) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    return email == _validEmail && password == _validPassword;
+class AuthService {
+  static Future<String> login(String email, String password) {
+    return ApiService.login(email, password);
+  }
+
+  static Future<void> register({
+    required String name,
+    required String surname,
+    required String email,
+    required String phone,
+    required DateTime birthDate,
+    required String password,
+  }) {
+    return ApiService.registerUser(
+      name: name,
+      surname: surname,
+      email: email,
+      phone: phone,
+      birthDate: birthDate,
+      password: password,
+    );
   }
 }
