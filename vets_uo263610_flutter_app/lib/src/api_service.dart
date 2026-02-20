@@ -6,6 +6,25 @@ import 'package:vets_uo263610_flutter_app/src/user.dart';
 import 'package:vets_uo263610_flutter_app/src/vet_clinic.dart';
 
 class ApiService {
+
+    static Future<void> registerVetClinic({
+      required String token,
+      required Map<String, dynamic> data,
+    }) async {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/vets'),
+        headers: {
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+        body: jsonEncode(data),
+      );
+      if (response.statusCode == 201) {
+        return;
+      }
+      final errorText = _extractErrorMessage(response.body);
+      throw Exception(errorText ?? 'No se pudo registrar la clínica');
+    }
   static Future<String> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('${ApiConfig.baseUrl}/users/login'),
